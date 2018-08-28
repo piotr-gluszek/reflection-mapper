@@ -19,18 +19,21 @@ public class Mapper {
     private static final String MAPPING_DOES_NOT_EXIST = "Mapping file %s does not exist.";
     private static final String LOADING_MAPPING = "Loading mapping...";
     private static final String MAPPING_LOADED = "Loading mapping successful.";
+    private static final String NO_MAPPING = "Mapping in not loaded.";
 
     private static final Logger log = Logger.getLogger(Mapper.class);
     private String path;
     private HashMap<String, HashMap<String, String>> mapping;
 
 
-    public Mapper(@NotNull String path) {
+    public Mapper(String path) {
         this.path = path;
     }
 
     public void loadMapping() throws MapperException {
         log.debug(LOADING_MAPPING);
+        if (path == null)
+            throw new MapperException("Invalid path to mapping file.");
         File file = new File(path);
         if (!file.exists())
             throw new MapperException(String.format(MAPPING_DOES_NOT_EXIST, path));
@@ -51,8 +54,9 @@ public class Mapper {
     /**
      * Mapped object has to have default constructor.
      */
-    public Optional<Object> map(Object source) {
-        if(mapping != null)
+    public Optional<Object> map(Object source) throws MapperException {
+        if (mapping == null)
+            throw new MapperException(NO_MAPPING);
         try {
             Object result = source.getClass().getConstructor().newInstance();
             Field[] fields = source.getClass().getDeclaredFields();

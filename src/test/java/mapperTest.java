@@ -23,7 +23,6 @@ public class mapperTest {
         } catch (NoSuchElementException | MapperException ex) {
             fail(ex.getMessage());
         }
-
     }
 
 }
