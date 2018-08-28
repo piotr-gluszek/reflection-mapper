@@ -1,0 +1,10 @@
+{
+  "status": {
+    "202": "ACCPETED",
+    "400": "BAD REQUEST"
+  },
+  "message": {
+    "Fatal error": "Quite bad situation",
+    "Ok": "Excellent job!"
+  }
+}
